@@ -249,11 +249,14 @@ def print_statistics() -> None:
     
     # Print out all merch (I used a while loop cuz why not lol)
     while counter <= (len(merch_overall_data) - 1):
+        
+        # Create quick access variables of the current merch chosen
         if isinstance(merch_overall_data[counter], dict):
             current_data: dict = merch_overall_data[counter]
         else:
             current_data: int = merch_overall_data[counter] 
         
+        # Print merch data in the order of the merch items in merch_overall_data
         if counter == 0:
             print_merch_data("Cotton T-Shirt", current_data)
             
@@ -266,27 +269,37 @@ def print_statistics() -> None:
             
         counter += 1            
             
+            
 if __name__ == "__main__":
-    # csv = input("Enter the file you would like to analyze: ").strip()
-    # headers, data = file_reader(csv)
-    headers, data = file_reader("merch-data-sample.tsv")
     
+    # Get user input to select file    
+    file = input("Enter the file you would like to analyze (case-sensitive): ").strip()
+    headers, data = file_reader(file)
+
+    
+    # Update merch data using data of each order
     for order in data:
+        
+        # Checks each merchandise item type and update accordingly
         for col in range(len(headers)):
+            
+            # Item is of shirt type (Cotton, Dri-Fit)
             if col in (0, 1):
                 current_merch = merch_overall_data[col]
                 current_order: str = order[col]
                 
                 update_merch_data(current_order, col)
         
+            # Item is towel. Function is here because it's straightforward and I'm lazy. No love for towels </3
             elif col == 2 and order[col] != "Not applicable.":
                 merch_overall_data[col] += int(order[col])
-            
+        
+    # Print overall order statistics
     print_statistics()
     
+    # Generate .csv export files for each shirt item
     for merch in merch_overall_data:
         csv_generator(merch)
     
     print("Finished writing csv files.")
-            
             
