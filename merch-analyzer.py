@@ -55,11 +55,7 @@ def file_reader(filename: str) -> None:
         None
     """
     
-    # Determines whether the filename is a .csv or .tsv
-    if filename[-3] == "c":
-        delimiter = ","
-    else:
-        delimiter = "\t"
+    delimiter = "\t"
     
     # Opens the file and extracts the header and data separately
     with open(filename, "r") as file:
@@ -205,8 +201,7 @@ def csv_generator(merch: dict | int) -> None:
     
     # No love (.csv file) for towels </3
     else:
-        print("\ni'm not making a csv with 1 line. towel data:")
-        print(f"Towels: {towels}\n") # you get the numbers though lol
+        print("i'm not making a csv with 1 line. towel data is right up there.")
     
     
 def print_merch_data(merch: str, data: dict) -> None:
