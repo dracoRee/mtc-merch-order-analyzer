@@ -42,6 +42,7 @@ towels = 0
 
 # All merchandise in a list to simplify...
 merch_overall_data = [cotton, dri_fit, towels]
+merch_total_qty = [0, 0, 0]
 
 def file_reader(filename: str) -> None:
     """
@@ -130,7 +131,8 @@ def analyze_size_and_quantity(unformatted_string: str) -> Tuple[str, int]:
 
 def add_qty_to_size(size: str, qty: int, merch_to_add: dict) -> None:
     """
-    Based on the merch item, add the quantity to that item's size.
+    Based on the merch item, add the quantity to that item's size. Also adds the the quantity to
+    the total amount of shirts ordered for each type of item.
     
     Input:
         size: str - Size to be added to
@@ -142,6 +144,7 @@ def add_qty_to_size(size: str, qty: int, merch_to_add: dict) -> None:
     """
     
     merch_to_add[size] += qty
+    merch_total_qty[merch_overall_data.index(merch_to_add)] += qty
     
         
 def csv_writer(merch: dict , filename: str) -> str:
@@ -167,6 +170,7 @@ def csv_writer(merch: dict , filename: str) -> str:
         # Write out the size and quantity required to order separated by a comma (.csv delimiter)
         for key in merch.keys():
             file.write(f"{key},{merch[key]}\n")
+            
     
     return return_message
     
@@ -221,8 +225,12 @@ def print_merch_data(merch: str, data: dict) -> None:
     
     # Print out the data for each size
     print(f"{merch} Data")
+    print("-----------------")
+    print(f"Total Quantity: {merch_total_qty[merch_overall_data.index(data)]}")
+    print("-----------------")
     for key in keys:
         print(f"    {key}: {data[key]}")
+    
     print("===========================")
 
 
@@ -297,4 +305,4 @@ if __name__ == "__main__":
         csv_generator(merch)
     
     print("Finished writing csv files.")
-            
+            # :)
